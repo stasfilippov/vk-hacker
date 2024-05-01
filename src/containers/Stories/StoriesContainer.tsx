@@ -1,7 +1,7 @@
-import {FC, ReactNode, useEffect, useState} from 'react';
+import {FC, Fragment, ReactNode, useEffect, useState} from 'react';
 import {hackerNewsAPI} from '../../api/hackerNewsAPI.ts';
 import {StoryItemList} from '../Story/StoryItemList.tsx';
-import {ScreenSpinner, SplitCol, SplitLayout} from '@vkontakte/vkui';
+import {ScreenSpinner, Separator, Spacing, SplitCol, SplitLayout} from '@vkontakte/vkui';
 
 export const StoriesContainer: FC = () => {
 
@@ -24,7 +24,12 @@ export const StoriesContainer: FC = () => {
 			<SplitCol>
 				{storyIds.map(storyId => {
 					return (
-						<StoryItemList key={storyId} idStory={storyId}/>
+						<Fragment key={storyId}>
+							<StoryItemList idStory={storyId}/>
+							<Spacing size={24}>
+								<Separator/>
+							</Spacing>
+						</Fragment>
 					)
 				})}
 			</SplitCol>

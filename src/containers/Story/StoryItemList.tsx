@@ -1,9 +1,10 @@
 import {FC, useEffect, useState} from 'react';
 import {hackerNewsAPI, StoryType} from '../../api/hackerNewsAPI.ts';
-import {Button, Div, Footnote, Title} from '@vkontakte/vkui';
+import {SimpleCell, Tappable, Title} from '@vkontakte/vkui';
 import {useRouteNavigator} from '@vkontakte/vk-mini-apps-router';
 import {routes} from '../../routes.ts';
 import {convertDate} from '../../utils/convertDate.ts';
+import {Icon20CalendarOutline, Icon20StatisticsOutline, Icon20User} from '@vkontakte/icons';
 // import {RouterLink} from '@vkontakte/vk-mini-apps-router';
 
 type StoryComponentProps = {
@@ -22,21 +23,24 @@ export const StoryItemList: FC<StoryComponentProps> = ({idStory}) => {
 
 
 	return story && story.url ? (
-		<Div>
+		<Tappable
+			onClick={() => routeNavigator.push(routes.default_root.default_view.story, {idStory: idStory.toString()})}
+			style={{'padding': '10px 20px'}}
+		>
 			<Title level={'1'}>{story?.title}</Title>
-			<Footnote weight="1">
-				<span style={{marginRight: '5px'}}>Автор: {story?.by}</span>
-			</Footnote>
-			<Footnote weight="2">
-				<span style={{marginRight: '5px'}}>Rating: {story?.score}</span>
-			</Footnote>
-			<Footnote weight="2">
-				<span>{dateOfStory}</span>
-			</Footnote>
-			<Button
-				onClick={() => routeNavigator.push(routes.default_root.default_view.story, {idStory: idStory.toString()})}>Переход
-				на страницу новости</Button>
-		</Div>
+			<SimpleCell
+				expandable="auto"
+				before={<Icon20User/>}
+			>{story?.by}</SimpleCell>
+			<SimpleCell
+				expandable="auto"
+				before={<Icon20StatisticsOutline/>}
+			>{story?.score}</SimpleCell>
+			<SimpleCell
+				expandable="auto"
+				before={<Icon20CalendarOutline/>}
+			>{dateOfStory}</SimpleCell>
+		</Tappable>
 	) : null;
 };
 

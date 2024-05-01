@@ -1502,7 +1502,7 @@
   dependencies:
     "@swc/helpers" "^0.5.1"
 
-"@vkontakte/icons@^2.62.0", "@vkontakte/icons@^2.92.0":
+"@vkontakte/icons@^2.112.0", "@vkontakte/icons@^2.62.0":
   version "2.112.0"
   resolved "https://registry.yarnpkg.com/@vkontakte/icons/-/icons-2.112.0.tgz#87673b4199bed959bc3a9bd4084012658dc4644b"
   integrity sha512-0cqLO5HwIqYxlaKh90FmYw9Do5lFvpQmirR3qzTjFF4h6jRv2bMJ777MqaTcU5UrV8LJO/QHkDRszZxzN7Fp/g==

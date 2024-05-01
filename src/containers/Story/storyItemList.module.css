@@ -1,0 +1,10 @@
+.footnoteWrapper {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    /*background: rgba(162, 161, 161, 0.4);*/
+}
+
+.flex {
+
+}

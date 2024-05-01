@@ -1,17 +1,17 @@
-import { defineConfig } from 'vite';
+import {defineConfig} from 'vite';
 import react from '@vitejs/plugin-react';
 import legacy from '@vitejs/plugin-legacy';
 
 function handleModuleDirectivesPlugin() {
-  return {
-    name: 'handle-module-directives-plugin',
-    transform(code, id) {
-      if (id.includes('@vkontakte/icons')) {
-        code = code.replace(/"use-client";?/g, '');
-      }
-      return { code };
-    },
-  };
+	return {
+		name: 'handle-module-directives-plugin',
+		transform(code, id) {
+			if (id.includes('@vkontakte/icons')) {
+				code = code.replace(/"use-client";?/g, '');
+			}
+			return {code};
+		},
+	};
 }
 
 /**
@@ -22,17 +22,20 @@ function handleModuleDirectivesPlugin() {
  * The details are here: https://dev.vk.com/mini-apps/development/on-demand-resources.
  */
 export default defineConfig({
-  base: './',
+	base: './',
 
-  plugins: [
-    react(),
-    handleModuleDirectivesPlugin(),
-    legacy({
-      targets: ['defaults', 'not IE 11'],
-    }),
-  ],
+	plugins: [
+		react(),
+		handleModuleDirectivesPlugin(),
+		legacy({
+			targets: ['defaults', 'not IE 11'],
+		}),
+	],
 
-  build: {
-    outDir: 'build',
-  },
+	build: {
+		outDir: 'build',
+	},
+	resolve: {
+		alias: [{find: /^@vkontakte\/vkui$/, replacement: '@vkontakte/vkui/dist/cssm'}],
+	},
 });
