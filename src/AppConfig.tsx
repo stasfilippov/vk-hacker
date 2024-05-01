@@ -7,6 +7,8 @@ import '@vkontakte/vkui/dist/cssm/styles/themes.css';
 import {transformVKBridgeAdaptivity} from './utils';
 import {router} from './routes';
 import {App} from './App';
+import {store} from './app/store.ts';
+import {Provider} from 'react-redux';
 
 export const AppConfig = () => {
 	const vkBridgeAppearance = useAppearance() || undefined;
@@ -24,7 +26,9 @@ export const AppConfig = () => {
 			<AdaptivityProvider {...adaptivity}>
 				<AppRoot mode="full" safeAreaInsets={vkBridgeInsets}>
 					<RouterProvider router={router}>
-						<App/>
+						<Provider store={store}>
+							<App/>
+						</Provider>
 					</RouterProvider>
 				</AppRoot>
 			</AdaptivityProvider>
