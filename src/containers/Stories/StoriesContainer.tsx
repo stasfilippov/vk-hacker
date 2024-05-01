@@ -1,15 +1,20 @@
-import {FC, Fragment, ReactNode, useEffect, useState} from 'react';
+import {FC, ReactNode, useEffect, useState} from 'react';
 import {hackerNewsAPI} from '../../api/hackerNewsAPI.ts';
-import {StoryItemList} from '../Story/StoryItemList.tsx';
-import {ScreenSpinner, Separator, Spacing, SplitCol, SplitLayout} from '@vkontakte/vkui';
+import {ScreenSpinner, SplitCol, SplitLayout} from '@vkontakte/vkui';
+import {useInfiniteScroll} from '../../hooks/useInfinityScroll.ts';
+import {StoryItemListContainer} from '../StoryItemListWrapper/StoryItemListContainer.tsx';
 
 export const StoriesContainer: FC = () => {
-
+	const {count} = useInfiniteScroll()
 	const [storyIds, setStoryIds] = useState([])
 	const [popout, setPopout] = useState<ReactNode | null>(<ScreenSpinner size="large"/>);
 
 
 	useEffect(() => {
+		console.log(
+			'count', {count}
+		)
+
 		async function fetchStoriesData() {
 			const res = await hackerNewsAPI.getNewStoriesIds()
 			setStoryIds(res)
@@ -17,19 +22,14 @@ export const StoriesContainer: FC = () => {
 		}
 
 		fetchStoriesData()
-	}, []);
+	}, [count]);
 
 	return (
 		<SplitLayout popout={popout}>
 			<SplitCol>
-				{storyIds.map(storyId => {
+				{storyIds.slice(0, count).map(storyId => {
 					return (
-						<Fragment key={storyId}>
-							<StoryItemList idStory={storyId}/>
-							<Spacing size={24}>
-								<Separator/>
-							</Spacing>
-						</Fragment>
+						<StoryItemListContainer key={storyId} idStory={storyId}/>
 					)
 				})}
 			</SplitCol>
