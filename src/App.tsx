@@ -27,7 +27,7 @@ export const App = () => {
 				<View activePanel={activePanel}>
 					<Home id="home" fetchedUser={fetchedUser}/>
 					<Story id="story"/>
-				</View>
+				</View>story/:idStory
 			</SplitCol>
 		</SplitLayout>
 	);

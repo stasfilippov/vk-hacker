@@ -13,7 +13,7 @@ export const routes = RoutesConfig.create([
 	createRoot(DEFAULT_ROOT, [
 		createView(DEFAULT_VIEW, [
 			createPanel(DEFAULT_VIEW_PANELS.HOME, '/', []),
-			createPanel(DEFAULT_VIEW_PANELS.STORY, `/${DEFAULT_VIEW_PANELS.STORY}`, []),
+			createPanel(DEFAULT_VIEW_PANELS.STORY, `/${DEFAULT_VIEW_PANELS.STORY}/:idStory`, [], ['idStory'] as const),
 		]),
 	]),
 ]);
