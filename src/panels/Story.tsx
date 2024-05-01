@@ -1,40 +1,68 @@
-import {FC, useEffect, useState} from 'react';
-import {Link, NavIdProps, Panel, PanelHeader, PanelHeaderBack, Placeholder} from '@vkontakte/vkui';
-import {useRouteNavigator} from '@vkontakte/vk-mini-apps-router';
+import {FC, ReactNode, useEffect, useState} from 'react';
+import {
+	Div,
+	Footnote,
+	Link,
+	NavIdProps,
+	Panel,
+	PanelHeader,
+	PanelHeaderBack,
+	ScreenSpinner,
+	Spacing,
+	SplitCol,
+	SplitLayout,
+	Title
+} from '@vkontakte/vkui';
+import {useParams, useRouteNavigator} from '@vkontakte/vk-mini-apps-router';
 import {hackerNewsAPI, StoryType} from '../api/hackerNewsAPI.ts';
+import {convertDate} from '../utils/convertDate.ts';
 
-export interface StoryProps extends NavIdProps {
-	idStory: number;
-}
 
-export const Story: FC<StoryProps> = ({id, idStory}) => {
+export const Story: FC<NavIdProps> = ({id}) => {
 	const routeNavigator = useRouteNavigator();
 
 	const [story, setStory] = useState<StoryType | null>(null)
+	const [popout, setPopout] = useState<ReactNode | null>(<ScreenSpinner size="large"/>);
+	const params = useParams<'idStory'>()
+
 
 	useEffect(() => {
-		hackerNewsAPI.getStory(idStory).then(data => setStory(data))
-	}, [idStory]);
 
-	const convertData = (date: number | undefined) => {
-		if (date) {
-			return new Date(date * 1000).toLocaleString()
+		async function fetchStoryData() {
+			const res = await hackerNewsAPI.getStory(Number(params?.idStory))
+			setStory(res)
+			setPopout(null);
 		}
 
-		return 'Data not found'
-	}
+		fetchStoryData()
+	}, []);
+
+	const dateOfStory = convertDate(story?.time)
+
 
 	return (
 		<Panel id={id}>
 			<PanelHeader before={<PanelHeaderBack onClick={() => routeNavigator.back()}/>}>
-				Story
+				Страница новости
 			</PanelHeader>
-			<Placeholder>
-				<Link href={story?.url}>{story?.url}</Link>
-				<div>{story?.title}</div>
-				<div>{story?.by}</div>
-				<div>{convertData(story?.time)}</div>
-			</Placeholder>
+			<SplitLayout popout={popout}>
+				<SplitCol>
+					<Div>
+						<Link href={story?.url}>{story?.url}</Link>
+						<Spacing size={16}/>
+						<Title level={'1'}>{story?.title}</Title>
+						<Spacing size={16}/>
+						<Footnote weight="1">
+							Автор: {story?.by}
+						</Footnote>
+						<Spacing size={16}/>
+						<div>{dateOfStory}</div>
+						<div>{story?.descendants}</div>
+						<div>Comments</div>
+						<div>Кнопка для обновления комментариев</div>
+					</Div>
+				</SplitCol>
+			</SplitLayout>
 		</Panel>
 	);
 };

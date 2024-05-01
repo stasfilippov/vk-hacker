@@ -1,20 +1,34 @@
-import {FC, useEffect, useState} from 'react';
+import {FC, ReactNode, useEffect, useState} from 'react';
 import {hackerNewsAPI} from '../../api/hackerNewsAPI.ts';
-import {StoryComponent} from '../Story/StoryComponent.tsx';
+import {StoryItemList} from '../Story/StoryItemList.tsx';
+import {ScreenSpinner, SplitCol, SplitLayout} from '@vkontakte/vkui';
 
 export const StoriesContainer: FC = () => {
 
 	const [storyIds, setStoryIds] = useState([])
+	const [popout, setPopout] = useState<ReactNode | null>(<ScreenSpinner size="large"/>);
 
 
 	useEffect(() => {
-		hackerNewsAPI.getNewStoriesIds().then(data => setStoryIds(data))
+		async function fetchStoriesData() {
+			const res = await hackerNewsAPI.getNewStoriesIds()
+			setStoryIds(res)
+			setPopout(null);
+		}
+
+		fetchStoriesData()
 	}, []);
 
-	return storyIds.map(storyId => {
-		return (
-			<StoryComponent key={storyId} idStory={storyId}/>
-		)
-	})
+	return (
+		<SplitLayout popout={popout}>
+			<SplitCol>
+				{storyIds.map(storyId => {
+					return (
+						<StoryItemList key={storyId} idStory={storyId}/>
+					)
+				})}
+			</SplitCol>
+		</SplitLayout>
+	)
 };
 
