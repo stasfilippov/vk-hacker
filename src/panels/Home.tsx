@@ -1,7 +1,9 @@
 import {FC} from 'react';
-import {Avatar, Cell, Group, Header, NavIdProps, Panel, PanelHeader,} from '@vkontakte/vkui';
+import {Avatar, Button, Cell, Group, Header, NavIdProps, Panel, PanelHeader,} from '@vkontakte/vkui';
 import {UserInfo} from '@vkontakte/vk-bridge';
 import {StoriesContainer} from '../containers/Stories/StoriesContainer.tsx';
+import {useAppDispatch} from '../app/store.ts';
+import {fetchStoriesIds} from '../containers/Stories/storiesIDs-slice.ts';
 
 export interface HomeProps extends NavIdProps {
 	fetchedUser?: UserInfo;
@@ -9,7 +11,12 @@ export interface HomeProps extends NavIdProps {
 
 export const Home: FC<HomeProps> = ({id, fetchedUser}) => {
 	const {photo_200, city, first_name, last_name} = {...fetchedUser};
+	const dispatch = useAppDispatch()
 	// const routeNavigator = useRouteNavigator();
+
+	const handlerOnClick = () => {
+		dispatch(fetchStoriesIds())
+	}
 
 	return (
 		<Panel id={id}>
@@ -23,6 +30,9 @@ export const Home: FC<HomeProps> = ({id, fetchedUser}) => {
 			)}
 
 			<Group header={<Header mode="secondary">New stories</Header>}>
+				<Button size="m" onClick={handlerOnClick}>
+					Обновить новости
+				</Button>
 				<StoriesContainer/>
 			</Group>
 		</Panel>

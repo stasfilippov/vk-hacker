@@ -10,6 +10,8 @@ import {
 import {StoryType} from '../../api/hackerNewsAPI.ts';
 import {convertDate} from '../../utils/convertDate.ts';
 import {TreeOfComments} from '../../containers/TreeOfComments/TreeOfComments.tsx';
+import {useAppDispatch} from '../../app/store.ts';
+import {fetchCurrentStory} from './story-slice.ts';
 
 type StoryProps = {
 	story: StoryType
@@ -17,9 +19,12 @@ type StoryProps = {
 export const Story:FC<StoryProps> = ({story}) => {
 	const [isOpen, setIsOpen] = useState(true)
 	const dateOfStory = convertDate(story?.time)
-
-	const handlerOnClick = () => {
+const dispatch = useAppDispatch()
+	const handlerCloseOnClick = () => {
 		setIsOpen(!isOpen)
+	}
+	const handlerRefreshFetchData = () => {
+		dispatch(fetchCurrentStory(story.id))
 	}
 
 	return (
@@ -44,10 +49,10 @@ export const Story:FC<StoryProps> = ({story}) => {
 				before={<Icon20CommentOutline/>}
 			>
 				<ButtonGroup>
-					<Button onClick={handlerOnClick} mode="primary" size="m" after={<Counter>{story?.descendants}</Counter>}>
+					<Button onClick={handlerCloseOnClick} mode="primary" size="m" after={<Counter>{story?.descendants}</Counter>}>
 						Комментарии
 					</Button>
-					<Button size="m">
+					<Button size="m" onClick={handlerRefreshFetchData}>
 						<Icon20RefreshOutline/>
 					</Button>
 				</ButtonGroup>

@@ -1,4 +1,4 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 import {createAppAsyncThunk} from '../../utils/createAppAsyncThunk.ts';
 import {hackerNewsAPI} from '../../api/hackerNewsAPI.ts';
 import {handleServerNetworkError} from '../../utils/handleServerNetworkError.ts';
