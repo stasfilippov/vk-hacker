@@ -1,6 +1,8 @@
 import {FC, useEffect, useState} from 'react';
 import {CommentType, hackerNewsAPI} from '../../api/hackerNewsAPI.ts';
 import {TreeOfComments} from '../../containers/TreeOfComments/TreeOfComments.tsx';
+import {Caption, Div, Footnote, Tappable} from '@vkontakte/vkui';
+import style from './treeNodeComment.module.css'
 
 type TreeNodeCommentProps = {
 	commentID: number
@@ -25,14 +27,21 @@ export const TreeNodeComment:FC<TreeNodeCommentProps> = ({ commentID }) => {
 	}
 
 	return (
-		<div>
-			<div onClick={handleClick}>
-				<span>{commentCurrent?.text}</span>
-			</div>
-			<ul>
+		<li className={style.listStyle}>
+			{commentCurrent?.text
+				?
+					<Tappable onClick={handleClick}>
+						<Div>
+							<Caption level="3">{commentCurrent.by}</Caption>
+							<Footnote>{commentCurrent?.text}</Footnote>
+						</Div>
+					</Tappable>
+				: null
+			}
+			<div>
 				{showChildren && commentCurrent?.kids?.length && <TreeOfComments arrKids={commentCurrent.kids}/>}
-			</ul>
-		</div>
+			</div>
+		</li>
 	);
 };
 

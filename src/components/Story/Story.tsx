@@ -1,6 +1,6 @@
-import {FC} from 'react';
-import {Counter, Div, Link, SimpleCell, Spacing, Title, VisuallyHidden} from '@vkontakte/vkui';
-import {Icon20CalendarOutline, Icon20CommentOutline, Icon20User} from '@vkontakte/icons';
+import {FC, useState} from 'react';
+import {Button, Counter, Div, Link, SimpleCell, Spacing, Title, VisuallyHidden} from '@vkontakte/vkui';
+import {Icon20CalendarOutline, Icon20Chain, Icon20CommentOutline, Icon20User} from '@vkontakte/icons';
 import {StoryType} from '../../api/hackerNewsAPI.ts';
 import {convertDate} from '../../utils/convertDate.ts';
 import {TreeOfComments} from '../../containers/TreeOfComments/TreeOfComments.tsx';
@@ -9,15 +9,23 @@ type StoryProps = {
 	story: StoryType
 }
 export const Story:FC<StoryProps> = ({story}) => {
-
+	const [isOpen, setIsOpen] = useState(true)
 	const dateOfStory = convertDate(story?.time)
 
+	const handlerOnClick = () => {
+		setIsOpen(!isOpen)
+	}
 
 	return (
 		<Div>
-			<Link href={story?.url}>{story?.url}</Link>
-			<Spacing size={16}/>
 			<Title level={'1'}>{story?.title}</Title>
+			<Spacing size={16}/>
+			<SimpleCell
+				expandable="auto"
+				before={<Icon20Chain/>}
+			>
+				<Link href={story?.url}>{story?.url}</Link>
+			</SimpleCell>
 			<SimpleCell
 				expandable="auto"
 				before={<Icon20User/>}
@@ -28,23 +36,13 @@ export const Story:FC<StoryProps> = ({story}) => {
 			>{dateOfStory}</SimpleCell>
 			<SimpleCell
 				before={<Icon20CommentOutline/>}
-				indicator={
-					<Counter mode={"secondary"}>
-						<VisuallyHidden>Всего:</VisuallyHidden> {story?.descendants}
-					</Counter>
-				}
 			>
-				Комментарии:
+				<Button onClick={handlerOnClick} mode="primary" size="m" after={<Counter>{story?.descendants}</Counter>}>
+					Комментарии
+				</Button>
 			</SimpleCell>
+			{story.kids && isOpen && <TreeOfComments arrKids={story.kids}/>}
 			<div>Кнопка для обновления комментариев</div>
-
-			{/*<SimpleCell expandable={'auto'} before={<Icon20CommentOutline/>}>{story?.descendants}</SimpleCell>*/}
-			<div>Comments</div>
-			{story.kids && <TreeOfComments arrKids={story.kids}/>}
-
-
-
-
 		</Div>
 	);
 };
