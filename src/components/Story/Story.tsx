@@ -1,5 +1,5 @@
 import {FC, useState} from 'react';
-import {Button, ButtonGroup, Counter, Div, Group, Header, Link, SimpleCell, Spacing, Title} from '@vkontakte/vkui';
+import {Button, ButtonGroup, Counter, Group, Header, Link, SimpleCell, Spacing, Title} from '@vkontakte/vkui';
 import {
 	Icon20CalendarOutline,
 	Icon20Chain,
@@ -12,7 +12,6 @@ import {convertDate} from '../../utils/convertDate.ts';
 import {TreeOfComments} from '../../containers/TreeOfComments/TreeOfComments.tsx';
 import {useAppDispatch} from '../../app/store.ts';
 import {fetchCurrentStory} from './story-slice.ts';
-import {StoriesContainer} from '../../containers/Stories/StoriesContainer.tsx';
 
 type StoryProps = {
 	story: StoryType
