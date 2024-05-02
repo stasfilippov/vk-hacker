@@ -1,5 +1,5 @@
 import {FC, useState} from 'react';
-import {Button, ButtonGroup, Counter, Div, Link, SimpleCell, Spacing, Title} from '@vkontakte/vkui';
+import {Button, ButtonGroup, Counter, Div, Group, Header, Link, SimpleCell, Spacing, Title} from '@vkontakte/vkui';
 import {
 	Icon20CalendarOutline,
 	Icon20Chain,
@@ -12,6 +12,7 @@ import {convertDate} from '../../utils/convertDate.ts';
 import {TreeOfComments} from '../../containers/TreeOfComments/TreeOfComments.tsx';
 import {useAppDispatch} from '../../app/store.ts';
 import {fetchCurrentStory} from './story-slice.ts';
+import {StoriesContainer} from '../../containers/Stories/StoriesContainer.tsx';
 
 type StoryProps = {
 	story: StoryType
@@ -28,7 +29,7 @@ const dispatch = useAppDispatch()
 	}
 
 	return (
-		<Div>
+		<Group header={<Header mode="secondary">Story</Header>}>
 			<Title level={'1'}>{story?.title}</Title>
 			<Spacing size={16}/>
 			<SimpleCell
@@ -58,7 +59,6 @@ const dispatch = useAppDispatch()
 				</ButtonGroup>
 			</SimpleCell>
 			{story.kids && isOpen && <TreeOfComments arrKids={story.kids}/>}
-		</Div>
+		</Group>
 	);
 };
-
