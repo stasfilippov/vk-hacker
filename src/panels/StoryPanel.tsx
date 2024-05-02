@@ -11,7 +11,7 @@ import {
 import {useParams, useRouteNavigator} from '@vkontakte/vk-mini-apps-router';
 import {Story} from '../components/Story/Story.tsx';
 import {useSelector} from 'react-redux';
-import {storySelector} from '../components/Story/story-selector.ts';
+import {getStorySelector} from '../components/Story/getStory-selector.ts';
 import {useAppDispatch} from '../app/store.ts';
 import {fetchCurrentStory} from '../components/Story/story-slice.ts';
 
@@ -21,7 +21,7 @@ export const StoryPanel: FC<NavIdProps> = ({id}) => {
 	const dispatch = useAppDispatch()
 	const [popout, setPopout] = useState<ReactNode | null>(<ScreenSpinner size="large"/>);
 
-	const story = useSelector(storySelector)
+	const story = useSelector(getStorySelector)
 	const params = useParams<'idStory'>()
 
 	useEffect(() => {

@@ -1,6 +1,12 @@
 import {FC, useState} from 'react';
-import {Button, Counter, Div, Link, SimpleCell, Spacing, Title, VisuallyHidden} from '@vkontakte/vkui';
-import {Icon20CalendarOutline, Icon20Chain, Icon20CommentOutline, Icon20User} from '@vkontakte/icons';
+import {Button, ButtonGroup, Counter, Div, Link, SimpleCell, Spacing, Title} from '@vkontakte/vkui';
+import {
+	Icon20CalendarOutline,
+	Icon20Chain,
+	Icon20CommentOutline,
+	Icon20RefreshOutline,
+	Icon20User
+} from '@vkontakte/icons';
 import {StoryType} from '../../api/hackerNewsAPI.ts';
 import {convertDate} from '../../utils/convertDate.ts';
 import {TreeOfComments} from '../../containers/TreeOfComments/TreeOfComments.tsx';
@@ -37,12 +43,16 @@ export const Story:FC<StoryProps> = ({story}) => {
 			<SimpleCell
 				before={<Icon20CommentOutline/>}
 			>
-				<Button onClick={handlerOnClick} mode="primary" size="m" after={<Counter>{story?.descendants}</Counter>}>
-					Комментарии
-				</Button>
+				<ButtonGroup>
+					<Button onClick={handlerOnClick} mode="primary" size="m" after={<Counter>{story?.descendants}</Counter>}>
+						Комментарии
+					</Button>
+					<Button size="m">
+						<Icon20RefreshOutline/>
+					</Button>
+				</ButtonGroup>
 			</SimpleCell>
 			{story.kids && isOpen && <TreeOfComments arrKids={story.kids}/>}
-			<div>Кнопка для обновления комментариев</div>
 		</Div>
 	);
 };
