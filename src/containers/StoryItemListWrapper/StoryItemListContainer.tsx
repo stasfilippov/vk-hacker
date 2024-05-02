@@ -1,6 +1,6 @@
-import {FC} from 'react';
-import {StoryItemList} from '../../components/Story/StoryItemList.tsx';
+import  {FC} from 'react';
 import {Separator, Spacing} from '@vkontakte/vkui';
+import {StoryItemList} from '../../components/StoryItemList/StoryItemList.tsx';
 
 type StoryItemListContainerProps = {
 	idStory: number

@@ -7,7 +7,7 @@ const initialState = {
 	storiesIds: [] as number[]
 };
 
-export type AppInitialStateType = typeof initialState;
+export type StoriesIdsInitialStateType = typeof initialState;
 
 const slice = createSlice({
 	name: 'storiesIds',

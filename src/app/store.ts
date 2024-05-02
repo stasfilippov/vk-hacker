@@ -4,10 +4,12 @@ import {configureStore} from '@reduxjs/toolkit';
 import {appReducer} from './app-slice.ts';
 import {storiesIdsReducer} from '../containers/Stories/storiesIDs-slice.ts';
 import {useDispatch} from 'react-redux';
+import {storyReducer} from '../components/Story/story-slice.ts';
 
 const rootReducer = combineReducers({
 	app: appReducer,
-	storiesIds: storiesIdsReducer
+	storiesIds: storiesIdsReducer,
+	story: storyReducer
 });
 
 export const store = configureStore({

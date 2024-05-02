@@ -3,7 +3,7 @@ import {UserInfo} from '@vkontakte/vk-bridge';
 import {ScreenSpinner, SplitCol, SplitLayout, View} from '@vkontakte/vkui';
 import {useActiveVkuiLocation} from '@vkontakte/vk-mini-apps-router';
 
-import {Home, Story} from './panels';
+import {Home, StoryPanel} from './panels';
 import {DEFAULT_VIEW_PANELS} from './routes';
 
 export const App = () => {
@@ -26,7 +26,7 @@ export const App = () => {
 			<SplitCol>
 				<View activePanel={activePanel}>
 					<Home id="home" fetchedUser={fetchedUser}/>
-					<Story id="story"/>
+					<StoryPanel id="story"/>
 				</View>story/:idStory
 			</SplitCol>
 		</SplitLayout>

@@ -9,6 +9,9 @@ export const hackerNewsAPI = {
 	},
 	getStory(storyId: number) {
 		return instance.get<StoryType>(`item/${storyId}.json`).then(({data}) => data)
+	},
+	getCommentById(commentId: number) {
+		return instance.get(`item/${commentId}.json`).then(({data}) => data)
 	}
 
 }
@@ -22,4 +25,15 @@ export type StoryType = {
 	title: string
 	type: 'story' | 'job' | 'comment' | 'poll' | 'pollopt'
 	url: string
+	kids: number[]
+}
+
+export type CommentType = {
+	by: string
+	id: number
+	kids?: number[]
+	parent: number
+	text: string
+	time: number,
+	type: "comment"
 }
