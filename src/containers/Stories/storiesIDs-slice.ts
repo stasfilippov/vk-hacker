@@ -1,10 +1,10 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {createAppAsyncThunk} from '../../utils/createAppAsyncThunk.ts';
 import {hackerNewsAPI} from '../../api/hackerNewsAPI.ts';
 import {handleServerNetworkError} from '../../utils/handleServerNetworkError.ts';
 
 const initialState = {
-	storiesIds: [] as number[]
+	storiesIds: [] as number[],
 };
 
 export type StoriesIdsInitialStateType = typeof initialState;
@@ -12,7 +12,8 @@ export type StoriesIdsInitialStateType = typeof initialState;
 const slice = createSlice({
 	name: 'storiesIds',
 	initialState,
-	reducers: {},
+	reducers: {
+	},
 	extraReducers: builder => {
 		builder
 			.addCase(fetchStoriesIds.fulfilled, (state, action) => {

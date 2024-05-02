@@ -10,13 +10,30 @@ import {storyIdsSelector} from './storyIds-selector.ts';
 export const StoriesContainer: FC = () => {
 	const {count} = useInfiniteScroll()
 	const [popout, setPopout] = useState<ReactNode | null>(<ScreenSpinner size="large"/>);
+	const [isDataFetched, setIsDataFetched] = useState(false)
 	const dispatch = useAppDispatch()
 	const storyIds = useSelector(storyIdsSelector)
 
+	const refreshFetchingData = () => {
+		dispatch(fetchStoriesIds()).then(() => setIsDataFetched(true))
+	}
+
 	useEffect(() => {
-		dispatch(fetchStoriesIds())
-		setPopout(null);
-	}, [count]);
+		if (!isDataFetched) {
+			refreshFetchingData()
+			setPopout(null);
+		}
+	}, [isDataFetched]);
+
+	useEffect(() => {
+		if (isDataFetched) {
+			const intervalId = setInterval(refreshFetchingData
+			, 60000)
+
+			return () => clearInterval(intervalId)
+		}
+	}, [isDataFetched])
+
 
 	return (
 		<SplitLayout popout={popout}>
